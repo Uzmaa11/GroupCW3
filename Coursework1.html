@@ -36,100 +36,102 @@
 </head>
 <body >
         
-    <div id="app">
-        <header style="background-color:rgb(0, 0, 0);font-family:monospace;height:100px">
+    <div id="app">    
+               
+            <header style="background-color:rgb(0, 0, 0);font-family:monospace;height:100px">
             <img style="height:90px;display: flex;"src="images/header1.png"><br>
             <img style="height:50px;display:flex;margin-left:110px;margin-top:-80px;"src="images/header.png">
             <button style="margin-left:980px;margin-top:-50px;visibility: hidden;height:50px;border:4px solid white;border-radius:20px;width:200px;background-color:rgb(163, 156, 154);color:rgb(0, 0, 0);" id="cartbtn" v-on:click='showCheckout'>
                 {{cartItemCount}}
                 <span class="fas fa-cart-plus"></span>    Shopping Cart
             </button>
-        </header>
+            </header>
         
         <main>
-            <div v-if='showlesson'>
-                    <div style="margin-left:370px;margin-bottom:10px;margin-top:20px;background-color:rgb(255, 55, 5);border:4px solid black;border-radius:30px;width:500px;" id="sortButtons">
-                            <form style="margin-left:130px;margin-bottom:30px;color:rgb(255, 255, 255);width:500px;" >
-                                <h2 style="color:white;margin-left:80;">Sort by:</h2>
-                                
-                                <input checked type="radio"  name="sort_button" v-model="sortItem.sortCategory" value="Subject" >
-                                <label >Subject</label>
-                                
-                                <input type="radio" name="sort_button" v-model="sortItem.sortCategory" value="Price">
-                                <label >Price</label>
-                                
-                                <input type="radio"  name="sort_button" v-model="sortItem.sortCategory" value="Location"  >
-                                <label >Location</label><br><br>
-                    
-                                <input checked type="radio"  name="sort_option" v-model="sortItem.sortOrder" value="Ascending"  >
-                                <label >Ascending</label>
-                               
-                                <input type="radio"  name="sort_option" v-model="sortItem.sortOrder" value="Descending"  >
-                                <label >Descending</label>
-                    
-                                </form>
-                                </div>
-                <div class="card" v-for="lessons in Sort">
-                   <h2 style="margin-left: 30px;font-family: Brush script MT;font-size:30px;color:rgb(0, 0, 0);" v-text="lessons.subject"></h2>
-                    <figure>
-                        <img  style="width: 300px;height:300px;margin-left:-20px;" v-bind:src="lessons.image">
-                    </figure>
-                    <p style="margin-left: 30px;color:rgb(0, 0, 0);">Location: {{lessons.location}}</p>
-                    <p style="margin-left: 30px;color:rgb(0, 0, 0);">Price: {{lessons.price}}</p>
-                    <p style="margin-left: 30px;color:rgb(0, 0, 0);">Available spaces: {{lessons.availableInventory -cartCount(lessons) }}</p>
-
-                    <button style="margin-left:160px;margin-bottom:20px;height:50px;width:120px;background-color:rgb(8, 8, 8);color:rgb(255, 196, 0);border:4px solid rgb(255, 196, 0);border-radius:30px;" v-on:click='addToCart(lessons)' v-if='canAddToCart(lessons)'>Add to cart</button>
-                   
-                    <span style="margin-left: 30px;margin-bottom:20px;color:red;" v-if='lessons.availableInventory === cartCount(lessons)'>All out!</span>
-                    <span style="color:blue;" v-else-if="lessons.availableInventory - cartCount(lessons) < 5">
-                        Only {{lessons.availableInventory - cartCount(lessons)}} left!
-                    </span>
-                    <span style="color:blue;" v-else>Buy now!</span>
-                </div> 
-                
-            </div>
-            
-
-            <div v-else>
-                <div>
-                <h2 style="margin-left: 30px;font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;font-size:30px;color:rgb(0, 0, 0);">Your Cart</h2>
-                <div class="card" v-for="lessons in cart">
-                       
-                 <h2 style="margin-left: 30px;font-family: Brush script MT;font-size:30px;color:rgb(0, 0, 0);" v-text="lessons.subject"></h2>
-                 <figure>
-                     <img  style="width: 300px;height:300px;margin-left:-20px;" v-bind:src="lessons.image">
-                 </figure>
-                 <p style="margin-left: 30px;color:rgb(0, 0, 0);;">Location: {{lessons.location}}</p>
-                 <p style="margin-left: 30px;color:rgb(0, 0, 0);;">Price: {{lessons.price}}</p>
-                 <button style="margin-left:160px;margin-bottom:20px;height:50px;width:120px;background-color:rgb(209, 22, 22);color:rgb(255, 196, 0);border:4px solid rgb(255, 196, 0);border-radius:30px;"  v-on:click='RemoveItem(lessons)' >Remove</button>
-            
-                </div>
-                <div id="chkout" style="background-color:rgb(255, 55, 5);border:4px solid black;border-radius:30px;">
-                <h2 style="margin-left:530px;font-family:Brush script MT;font-size:40px;color:rgb(145, 144, 144);">Checkout</h2>
-                        <form name="theform" style="margin-left:30px;color:white;">
-                                <label >Name:</label>
-                                <input style="width:480px" type="text" id="txtName" onkeypress="return Validate(event);" />
-                                <span id="lblError"></span>
-                                <label style="margin-left:30px;">  Phone No:</label>
-                                <input style="width:480px" v-model="order.Phone" type="number" type="text" onKeyup="checkform()" /><br><br>
-                               
-                                <input style="visibility:hidden;margin-left:450px;margin-bottom:20px;height:40px;width:250px;background-color:rgb(8, 8, 8);color:rgb(255, 196, 0);border:4px solid rgb(255, 196, 0);border-radius:30px;" id="submitbutton" type="submit" value="Submit" v-on:click=submitForm() />
-                                </form> 
-               </div>
-            </div>
-                                          
-               
-                <div   v-if='showlesson'>
-                    <div v-for="lessons in Sort">
-                        <h2 id="lessonSubject" v-text="lessons.subject"></h2>
-                        <figure>
-                            <img v-bind:src="lessons.image">
-                        </figure>
-                        <p v-html="lessons.location"></p>
-                        <p>Price: {{lessons.price}}</p>
+          
+                    <div v-if='showlesson'>
+                            <div style="margin-left:370px;margin-bottom:10px;margin-top:20px;background-color:rgb(255, 55, 5);border:4px solid black;border-radius:30px;width:500px;" id="sortButtons">
+                                    <form style="margin-left:130px;margin-bottom:30px;color:rgb(255, 255, 255);width:500px;" >
+                                        <h2 style="color:white;margin-left:80;">Sort by:</h2>
+                                        
+                                        <input checked type="radio"  name="sort_button" v-model="sortItem.sortCategory" value="Subject" >
+                                        <label >Subject</label>
+                                        
+                                        <input type="radio" name="sort_button" v-model="sortItem.sortCategory" value="Price">
+                                        <label >Price</label>
+                                        
+                                        <input type="radio"  name="sort_button" v-model="sortItem.sortCategory" value="Location"  >
+                                        <label >Location</label><br><br>
+                            
+                                        <input checked type="radio"  name="sort_option" v-model="sortItem.sortOrder" value="Ascending"  >
+                                        <label >Ascending</label>
+                                       
+                                        <input type="radio"  name="sort_option" v-model="sortItem.sortOrder" value="Descending"  >
+                                        <label >Descending</label>
+                            
+                                        </form>
+                                        </div>
+                        <div class="card" v-for="lessons in Sort">
+                           <h2 style="margin-left: 30px;font-family: Brush script MT;font-size:30px;color:rgb(0, 0, 0);" v-text="lessons.subject"></h2>
+                            <figure>
+                                <img  style="width: 300px;height:300px;margin-left:-20px;" v-bind:src="lessons.image">
+                            </figure>
+                            <p style="margin-left: 30px;color:rgb(0, 0, 0);">Location: {{lessons.location}}</p>
+                            <p style="margin-left: 30px;color:rgb(0, 0, 0);">Price: {{lessons.price}}</p>
+                            <p style="margin-left: 30px;color:rgb(0, 0, 0);">Available spaces: {{lessons.availableInventory -cartCount(lessons) }}</p>
+        
+                            <button style="margin-left:160px;margin-bottom:20px;height:50px;width:120px;background-color:rgb(8, 8, 8);color:rgb(255, 196, 0);border:4px solid rgb(255, 196, 0);border-radius:30px;" v-on:click='addToCart(lessons)' v-if='canAddToCart(lessons)'>Add to cart</button>
+                           
+                            <span style="margin-left: 30px;margin-bottom:20px;color:red;" v-if='lessons.availableInventory === cartCount(lessons)'>All out!</span>
+                            <span style="color:blue;" v-else-if="lessons.availableInventory - cartCount(lessons) < 5">
+                                Only {{lessons.availableInventory - cartCount(lessons)}} left!
+                            </span>
+                            <span style="color:blue;" v-else>Buy now!</span>
+                        </div> 
+                        
                     </div>
-            </div>
-        </main>
+          
+                    <div v-else>
+                            <div>
+                            <h2 style="margin-left: 30px;font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;font-size:30px;color:rgb(0, 0, 0);">Your Cart</h2>
+                            <div class="card" v-for="lessons in cart">
+                                   
+                             <h2 style="margin-left: 30px;font-family: Brush script MT;font-size:30px;color:rgb(0, 0, 0);" v-text="lessons.subject"></h2>
+                             <figure>
+                                 <img  style="width: 300px;height:300px;margin-left:-20px;" v-bind:src="lessons.image">
+                             </figure>
+                             <p style="margin-left: 30px;color:rgb(0, 0, 0);;">Location: {{lessons.location}}</p>
+                             <p style="margin-left: 30px;color:rgb(0, 0, 0);;">Price: {{lessons.price}}</p>
+                             <button style="margin-left:160px;margin-bottom:20px;height:50px;width:120px;background-color:rgb(209, 22, 22);color:rgb(255, 196, 0);border:4px solid rgb(255, 196, 0);border-radius:30px;"  v-on:click='RemoveItem(lessons)' >Remove</button>
+                        
+                            </div>
+                            <div id="chkout" style="background-color:rgb(255, 55, 5);border:4px solid black;border-radius:30px;">
+                            <h2 style="margin-left:530px;font-family:Brush script MT;font-size:40px;color:rgb(145, 144, 144);">Checkout</h2>
+                                    <form name="theform" style="margin-left:30px;color:white;">
+                                            <label >Name:</label>
+                                            <input style="width:480px" type="text" id="txtName" onkeypress="return Validate(event);" />
+                                            <span id="lblError"></span>
+                                            <label style="margin-left:30px;">  Phone No:</label>
+                                            <input style="width:480px" v-model="order.Phone" type="number" type="text" onKeyup="checkform()" /><br><br>
+                                           
+                                            <input style="visibility:hidden;margin-left:450px;margin-bottom:20px;height:40px;width:250px;background-color:rgb(8, 8, 8);color:rgb(255, 196, 0);border:4px solid rgb(255, 196, 0);border-radius:30px;" id="submitbutton" type="submit" value="Submit" v-on:click=submitForm() />
+                                            </form> 
+                           </div>
+                        </div>
+                                                      
+                            <div   v-if='showlesson'>
+                                <div v-for="lessons in Sort">
+                                    <h2 id="lessonSubject" v-text="lessons.subject"></h2>
+                                    <figure>
+                                        <img v-bind:src="lessons.image">
+                                    </figure>
+                                    <p v-html="lessons.location"></p>
+                                    <p>Price: {{lessons.price}}</p>
+                                </div>
+                        </div>
+                    </main>
+           
+   
     </div>
     
     <script type="text/javascript">
