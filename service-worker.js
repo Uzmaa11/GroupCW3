@@ -1,6 +1,6 @@
 var cacheName='activities-v1';
 var cacheFiles=[
-    'Coursework1.html',
+    'Coursework3.html',
     'lessons.js',
     'activities.webmanifest',
     'images/art.png',
