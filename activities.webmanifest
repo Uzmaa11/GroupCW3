@@ -4,7 +4,7 @@
     "description":"my online store",
     "icons":[
         {
-            "src":"images/icon-store-512.png",
+            "src":"512.png",
             "sizes":"512x512",
             "type":"image/png"
         }
