@@ -16,6 +16,8 @@ var cacheFiles=[
     'images/yoga.png',
     'images/header.PNG',
     'images/header1.PNG',
+    'images/192.png',
+    'images/512.png'
 ]
 
 self.addEventListener('install',(e)=>{
